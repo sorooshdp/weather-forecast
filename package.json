@@ -1,0 +1,23 @@
+{
+  "name": "weather-forecast",
+  "version": "1.0.0",
+  "description": "a weather forecast site using openweather api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass --watch scss -o css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sorooshdp/weather-forecast.git"
+  },
+  "author": "soroosh dadashi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sorooshdp/weather-forecast/issues"
+  },
+  "homepage": "https://github.com/sorooshdp/weather-forecast#readme",
+  "dependencies": {
+    "node-sass": "^8.0.0"
+  }
+}
