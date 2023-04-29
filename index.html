@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,100&display=swap" rel="stylesheet">
+	<title>weather</title>
+</head>
+
+<body>
+	<div id="app">
+		<nav class="nav-bar">
+			<div class="nav-bar--container">
+				<div class="nav-item">
+					<i class="fa-solid fa-cloud"></i>
+					<p>Weather</p>
+				</div>
+				<div class="nav-item">
+					<i class="fa-solid fa-list"></i>
+					<p>Cities</p>
+				</div>
+				<div class="nav-item">
+					<i class="fa-solid fa-map"></i>
+					<p>Map</p>
+				</div>
+				<div class="nav-item">
+					<i class="fa-solid fa-sliders"></i>
+					<p>Settings</p>
+				</div>
+			</div>
+		</nav>
+		<main class="main">
+			<input type="text" class="search-bar" placeholder="Search for Cities...">
+			<div class="main-header">
+				<div class="city-info">
+					<div>
+						<h1 id="city-name">
+							Madrid
+						</h1>
+						<p id="rain-chance">
+							chance of rain: 0%
+						</p>
+					</div>
+					<p class="city-degree"> 31 <span>&#8451;</span></p>
+				</div>
+				<div class="weather-icon">
+					<img src="./icons/animated/cloudy-day-1.svg" alt="icon" class="icon">
+				</div>
+			</div>
+			<div class="forecast">
+				<h3 class="forecast-header">Today's Forecast</h3>
+				<div class="items-container">
+					<div class="item">
+
+					</div>
+
+					<div class="item">
+
+					</div>
+
+					<div class="item">
+
+					</div>
+					<div class="item">
+
+					</div>
+					<div class="item">
+
+					</div>
+					<div class="item">
+
+					</div>
+
+				</div>
+
+			</div>
+			<div class="air-conditions">
+
+			</div>
+		</main>
+		<aside class="aside">
+
+		</aside>
+
+	</div>
+
+	<script src="./js/fontAwesome.js"></script>
+	<script src="./js/app.js"></script>
+</body>
+
+</html>
