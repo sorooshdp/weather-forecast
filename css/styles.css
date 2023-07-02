@@ -21,6 +21,14 @@
   grid-column-gap: 0px;
   grid-row-gap: 0px; }
 
+body::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: #0B131E; }
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #202C3C; }
+
 .nav-bar {
   height: 100%;
   grid-area: 1 / 1 / 6 / 2; }
@@ -67,18 +75,67 @@
     display: flex;
     align-items: center;
     justify-content: space-between; }
-    .main .main-header .city-name {
-      font-size: 1.2rem;
-      font-weight: 400;
+    .main .main-header .city-info {
       display: flex;
       flex-direction: column;
-      justify-content: space-between; }
-    .main .main-header .rain-chance {
-      color: #69717E; }
+      justify-content: space-between;
+      height: 13rem; }
+      .main .main-header .city-info #city-name {
+        font-size: 3rem;
+        font-weight: 900; }
+      .main .main-header .city-info #rain-chance {
+        color: #69717E;
+        font-weight: 600; }
+      .main .main-header .city-info .city-degree {
+        font-size: 3.5rem; }
     .main .main-header .weather-icon {
-      margin: 2rem;
-      height: 4rem;
-      transform: scale(3); }
+      margin: 4rem 2rem 1rem 2rem;
+      height: 4rem; }
+      .main .main-header .weather-icon .icon {
+        transform: scale(4); }
+  .main .forecast {
+    background-color: #202C3C;
+    height: 15rem;
+    border-radius: 1.5rem; }
+    .main .forecast .forecast-header {
+      padding-left: 1rem;
+      padding-top: 1rem; }
+    .main .forecast .items-container {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center; }
+      .main .forecast .items-container .item {
+        padding: 0 2rem; }
+        .main .forecast .items-container .item .item-icon {
+          margin: 0.5rem auto; }
+        .main .forecast .items-container .item .item-degree {
+          text-align: center; }
+  .main .air-conditions {
+    background-color: #202C3C;
+    height: 11rem;
+    border-radius: 1.5rem;
+    margin-top: 1rem; }
+    .main .air-conditions h3 {
+      padding-left: 1rem;
+      padding-top: 1rem; }
+    .main .air-conditions .items {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start; }
+      .main .air-conditions .items div {
+        width: 10rem; }
+      .main .air-conditions .items .info {
+        font-weight: bolder;
+        font-size: 2rem; }
+      .main .air-conditions .items .item__header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center; }
+        .main .air-conditions .items .item__header p {
+          margin-left: 0.5rem; }
 
 .aside {
   grid-area: 1 / 3 / 5 / 4; }

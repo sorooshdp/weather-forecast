@@ -6,6 +6,7 @@
     margin: 0;
     padding: 0;
 }
+
 #app {
     color: $platinum;
     background-color: $richBlack;
@@ -19,6 +20,17 @@
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
+
+body::-webkit-scrollbar{
+    width: 0.5rem;
+    background-color: $richBlack;
+}
+
+body::-webkit-scrollbar-thumb{
+    border-radius: 0.5rem;
+    background-color: $gunmetal;
+}
+
 .nav-bar {
     height: 100%;
     // background-color: $richBlack;
@@ -41,9 +53,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
             i {
                 font-size: 1.1rem;
             }
+
             p {
                 font-size: 0.8rem;
                 font-weight: 800;
@@ -73,26 +87,110 @@
             outline: none;
         }
     }
-    .main-header{
+
+    .main-header {
         margin: 1.5rem 2rem 1rem 3rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        .city-name{
-            font-size: 1.2rem;
-            font-weight: 400;
+        .city-info {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 13rem;
+
+            #city-name {
+                font-size: 3rem;
+                font-weight: 900;
+            }
+
+            #rain-chance {
+                color: $slateGray;
+                font-weight: 600;
+            }
+
+            .city-degree {
+                font-size: 3.5rem;
+            }
         }
-        .rain-chance{
-            color: $slateGray;
-        }
-        .weather-icon{
-            margin: 2rem;
+
+        .weather-icon {
+            margin: 4rem 2rem 1rem 2rem;
             height: 4rem;
-            transform: scale(3);
+
+            .icon {
+                transform: scale(4);
+            }
+        }
+    }
+
+    .forecast {
+        background-color: $gunmetal;
+        height: 15rem;
+        border-radius: 1.5rem; 
+
+        .forecast-header {
+            padding-left: 1rem;
+            padding-top: 1rem;
+        }
+
+        .items-container{
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            .item{
+                padding: 0 2rem;
+
+                .item-icon{
+                    margin: 0.5rem auto;
+                }
+                
+                .item-degree{
+                    text-align: center;
+                }
+            }  
+        }
+    }
+
+    .air-conditions {
+        background-color: $gunmetal;
+        height: 11rem;
+        border-radius: 1.5rem; 
+        margin-top: 1rem;
+         
+        h3{
+            padding-left: 1rem;
+            padding-top: 1rem;
+        }
+
+        .items{
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+
+            div {
+                width: 10rem;
+            }
+
+            .info{
+                font-weight: bolder;
+                font-size: 2rem;
+            }
+
+            .item__header {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                p {
+                    margin-left: 0.5rem;
+                }
+            }
         }
     }
 }
