@@ -3,6 +3,12 @@ const api = {
     BASE_URL: 'https://api.openweathermap.org/data/2.5/'
 }
 
+const cityName = document.querySelector('.search-bar');
+cityName.addEventListener('keypress', (event) => {
+    if(event.keyCode === 13){
+        getWeatherData(cityName.value)
+    }
+})
 
 function getWeatherData(searchTerm) {
     fetch(`${api.BASE_URL}weather?q=${searchTerm}&appid=${api.API_KEY}&units=metric`)
@@ -14,6 +20,7 @@ function getWeatherData(searchTerm) {
         })
         .then((data) => {
             // parseData(data);
+            showResult(data);
             console.log(data);
         })
         .catch((error) => {
@@ -21,4 +28,10 @@ function getWeatherData(searchTerm) {
         });
 }
 
-getWeatherData("tehran")
+
+
+function showResult(data){
+    
+}
+
+// getWeatherData("tehran")
