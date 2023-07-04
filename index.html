@@ -9,6 +9,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,100&display=swap" rel="stylesheet">
+	<link rel="icon" href="./icons/favIcon/icons8-umbrella-color-32.png" type="image/x-icon">
 	<title>weather</title>
 </head>
 
@@ -42,14 +43,14 @@
 						<h1 id="city-name">
 							Madrid
 						</h1>
-						<p id="rain-chance">
-							chance of rain: 0%
+						<p id="humidity">
+							Humidity  0 %
 						</p>
 					</div>
 					<p class="city-degree"> 31 <span>&#8451;</span></p>
 				</div>
 				<div class="weather-icon">
-					<img src="./icons/animated/cloudy-day-1.svg" alt="icon" class="icon">
+					<img src="./icons/animated/clear-day.svg" alt="icon" class="icon" style="height: 200px;width: 200px;">
 				</div>
 			</div>
 			<div class="forecast">
@@ -64,7 +65,7 @@
 							31 <span>&#8451;</span>
 						</p>
 					</div>
-
+					<hr class="forecast--hr">
 					<div class="item">
 						<h3 class="item-head">6:00 AM</h3>
 						<div class="item-icon">
@@ -74,7 +75,7 @@
 							31 <span>&#8451;</span>
 						</p>
 					</div>
-
+					<hr class="forecast--hr">
 					<div class="item">
 						<h3 class="item-head">6:00 AM</h3>
 						<div class="item-icon">
@@ -84,6 +85,7 @@
 							31 <span>&#8451;</span>
 						</p>
 					</div>
+					<hr class="forecast--hr">
 					<div class="item">
 						<h3 class="item-head">6:00 AM</h3>
 						<div class="item-icon">
@@ -93,6 +95,7 @@
 							31 <span>&#8451;</span>
 						</p>
 					</div>
+					<hr class="forecast--hr">
 					<div class="item">
 						<h3 class="item-head">6:00 AM</h3>
 						<div class="item-icon">
@@ -102,6 +105,7 @@
 							31 <span>&#8451;</span>
 						</p>
 					</div>
+					<hr class="forecast--hr">
 					<div class="item">
 						<h3 class="item-head">6:00 AM</h3>
 						<div class="item-icon">
@@ -129,39 +133,97 @@
 						<div class="wind">
 							<div class="item__header wind__header">
 								<i class="fa-solid fa-wind"></i>
-								<p>Wind</p>
+								<p>Wind Speed</p>
 							</div>
 							<div class="wind__info">
 								<p class="info">30</p>
 							</div>
 						</div>
-						<div class="rain-chance">
-							<div class="item__header rain-chance__header">
-								<i class="fa-solid fa-droplet"></i>
-								<p>Chance Of Rain</p>
+						<div class="wind-degree">
+							<div class="item__header wind-degree__header">
+								<i class="fa-solid fa-wind"></i>
+								<p>Wind degree</p>
 							</div>
-							<div class="rain-chance__info">
+							<div class="wind-degree__info">
 								<p class="info">30</p>
 							</div>
 						</div>
-						<div class="UV">
-							<div class="item__header UV__header">
+						<div class="max">
+							<div class="item__header max__header">
 								<i class="fa-solid fa-sun"></i>
-								<p>UV index</p>
+								<p>Max temperature</p>
 							</div>
-							<div class="UV__info">
+							<div class="max__info">
 								<p class="info">30</p>
 							</div>
 						</div>
 					</div>
 				</header>
-				
+
 			</div>
 		</main>
 		<aside class="aside">
+			<h3 class="aside__header">7-Day forecast</h3>
 
+			<div class="aside--container">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/cloudy.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/day.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/night.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/thunder.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/day.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/day.svg" alt="">
+					</div>
+					<div class="degree">45 / 4</div>
+				</div>
+				<hr class="aside--hr">
+				<div class="aside--item">
+					<p class="day">today</p>
+					<div>
+						<img src="./icons/static/thunder.svg" alt="">
+					</div>
+					<div class="degree">45 / 45</div>
+				</div>
+			</div>
 		</aside>
-
 	</div>
 
 	<script src="./js/fontAwesome.js"></script>
