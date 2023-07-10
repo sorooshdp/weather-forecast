@@ -75,7 +75,7 @@ body::-webkit-scrollbar-thumb {
         height: 3rem;
         padding: 1rem;
         margin-top: 1rem;
-        border-radius: 0.7rem;
+        border-radius: 1rem;
         border: none;
         background-color: $gunmetal;
         font-family: $mainFont;
@@ -229,5 +229,9 @@ body::-webkit-scrollbar-thumb {
         display: flex;
         justify-content: space-around;
         align-items: center;
+
+        .day{
+            width: 5rem;
+        }
     }
 }
