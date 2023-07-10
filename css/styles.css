@@ -61,7 +61,7 @@ body::-webkit-scrollbar-thumb {
     height: 3rem;
     padding: 1rem;
     margin-top: 1rem;
-    border-radius: 0.7rem;
+    border-radius: 1rem;
     border: none;
     background-color: #202C3C;
     font-family: "Poppins", sans-serif;
@@ -160,3 +160,5 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     justify-content: space-around;
     align-items: center; }
+    .aside--item .day {
+      width: 5rem; }
