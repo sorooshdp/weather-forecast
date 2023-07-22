@@ -6,23 +6,42 @@ const hourlyDegrees = document.querySelectorAll('.item-degree');
 const asideIcons = document.querySelectorAll('.aside--icon');
 const asideDegrees = document.querySelectorAll('.degree');
 const asideDays = document.querySelectorAll('.day');
+const searchButton = document.querySelector('#search-button');
+const searchTerm = document.querySelector('.search-bar');
+const alert = document.querySelector('#alert');
 let cityName = document.querySelector('#city-name');
 let cityDegree = document.querySelector('.city-degree');
 let humidity = document.querySelector('#humidity');
+
+const weatherIcons = {
+    CLEAR: [0],
+    CLOUDY: [1, 2, 3],
+    FOG: [45, 48],
+    DRIZZLE: [51, 53, 55, 56, 57],
+    RAIN: [61, 63, 66, 67],
+    SNOW: [71, 73, 75, 77, 85, 86],
+    THUNDER: [80, 82, 81],
+    THUNDERSTORMS: [95, 96, 99],
+};
 
 const api = {
     API_KEY: "89519baf7c707c67fc8c7b0765aa8545",
     BASE_URL: 'https://api.openweathermap.org/data/2.5/'
 }
 
-const searchTerm = document.querySelector('.search-bar');
 searchTerm.addEventListener('keypress', (event) => {
     if (event.keyCode === 13) {
-        getMainWeatherData(searchTerm.value)
+        if (searchTerm.value !== '') getMainWeatherData(searchTerm.value)
+        else popAlert();
     }
 })
 
-function getHourlyWeatherData(latitude, longitude ,mainData) {
+searchButton.addEventListener('click', () => {
+    if (searchTerm.value !== '') getMainWeatherData(searchTerm.value)
+    else popAlert();
+})
+
+function getHourlyWeatherData(latitude, longitude, mainData) {
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`)
         .then((response) => {
             if (!response.ok) {
@@ -35,7 +54,6 @@ function getHourlyWeatherData(latitude, longitude ,mainData) {
             showResult(mainData);
             updateHourlyWeatherData(data);
             updateSevenDayForecast(data);
-            console.log(data);
         })
         .catch(error => {
             console.log('There was an error fetching weather data', error);
@@ -52,18 +70,24 @@ function getMainWeatherData(searchTerm) {
             return response.json();
         })
         .then((data) => {
-            getHourlyWeatherData(data.coord.lat, data.coord.lon , data);
-            console.log(data);
+            getHourlyWeatherData(data.coord.lat, data.coord.lon, data);
         })
         .catch((error) => {
+            popAlert();
             console.error('There was a problem with the fetch operation:', error);
         });
 }
 
 function showResult(data) {
     updateMainStatus(data);
-    updateIcon(data.weather[0].main)
+    updateIcon(data.weather[0].main.toLowerCase())
     updateConditions(data);
+}
+
+function setOpacityZero(args) {
+    args.forEach(element => {
+        element.style.opacity = 0;
+    })
 }
 
 function updateSevenDayForecast(data) {
@@ -72,17 +96,24 @@ function updateSevenDayForecast(data) {
     const weatherCodes = data.daily.weathercode;
     const times = data.daily.time;
 
-    asideDegrees.forEach((element, index) => {
-        element.innerHTML = `${Math.floor(maxTemps[index])} / ${Math.floor(minTemps[index])}`;
-    })
+    setOpacityZero([...asideDays, ...asideDegrees, ...asideIcons])
 
-    asideDays.forEach((element, index) => {
-        element.innerText = dateToDay(times[index]);
-    })
+    setTimeout(() => {
+        asideDegrees.forEach((element, index) => {
+            element.innerHTML = `${Math.floor(maxTemps[index])} / ${Math.floor(minTemps[index])}`;
+            element.style.opacity = 1;
+        })
 
-    asideIcons.forEach((element, index) => {
-        element.src = updateIconByWeatherCode(weatherCodes[index]);
-    })
+        asideDays.forEach((element, index) => {
+            element.innerText = dateToDay(times[index]);
+            element.style.opacity = 1;
+        })
+
+        asideIcons.forEach((element, index) => {
+            element.src = updateIconByWeatherCode(weatherCodes[index]);
+            element.style.opacity = 1;
+        })
+    }, 500)
 }
 
 function dateToDay(date) {
@@ -109,14 +140,11 @@ function updateHourlyWeatherData(weatherData) {
     hour = hour ? hour : 12;
     hour = `${hour}:00 ${ampm}`;
 
-    console.log(hour);
     hourlyDates.forEach((apiDate, index) => {
         if (convertToDate(apiDate).monthAndDay.includes(todayMonthAndDay) || convertToDate(apiDate).monthAndDay.includes(tomorrowsMonthAndDay)) {
             todayHours.push([convertToDate(apiDate), index]);
         }
     });
-
-    console.log(todayHours);
 
     for (let i = 0; i < todayHours.length; i++) {
         if (todayHours[i][0].time.includes(hour)) {
@@ -125,38 +153,38 @@ function updateHourlyWeatherData(weatherData) {
         }
     }
 
-    hourlyHeaders.forEach((element, index) => {
-        element.innerText = todayHours[index][0].time;
-    })
+    setOpacityZero([...hourlyDegrees, ...hourlyHeaders, ...hourlyIcons]);
 
-    hourlyDegrees.forEach((element, index) => {
-        element.innerHTML = `${weatherDegrees[todayHours[index][1]]} <span>&#8451;</span>`;
-    })
+    setTimeout(() => {
+        hourlyHeaders.forEach((element, index) => {
+            if (todayHours[index][0].time.includes('rday')) {
+                element.innerText = todayHours[index][0].time.substring(todayHours[index][0].time.length - 8)
+                element.style.opacity = 1;
+            }
+            else {
+                element.innerText = todayHours[index][0].time;
+                element.style.opacity = 1
+            }
+        })
 
-    hourlyIcons.forEach((element, index) => {
-        element.src = updateIconByWeatherCode(weatherCodes[todayHours[index][1]]);
-    });
+        hourlyDegrees.forEach((element, index) => {
+            element.innerHTML = `${weatherDegrees[todayHours[index][1]]} <span>&#8451;</span>`;
+            element.style.opacity = 1
+        })
 
-    console.log(todayHours);
+        hourlyIcons.forEach((element, index) => {
+            element.src = updateIconByWeatherCode(weatherCodes[todayHours[index][1]]);
+            element.style.opacity = 1
+        });
+    }, 500)
+
 }
 
 function updateIconByWeatherCode(weatherCode) {
-    if (weatherCode === 0) {
-        return "./icons/animated/clear.svg";
-    } else if (weatherCode === 1 || weatherCode === 2 || weatherCode === 3) {
-        return "./icons/animated/cloudy.svg";
-    } else if (weatherCode === 45 || weatherCode === 48) {
-        return "./icons/animated/fog.svg";
-    } else if (weatherCode === 51 || weatherCode === 53 || weatherCode === 55 || weatherCode === 56 || weatherCode === 57) {
-        return "./icons/animated/drizzle.svg";
-    } else if (weatherCode === 61 || weatherCode === 63 || weatherCode === 66 || weatherCode === 67) {
-        return "./icons/animated/rain.svg";
-    } else if (weatherCode === 71 || weatherCode === 73 || weatherCode === 75 || weatherCode === 77 || weatherCode === 85 || weatherCode === 86) {
-        return "./icons/animated/snow.svg";
-    } else if (weatherCode === 80 || weatherCode === 82 || weatherCode === 81) {
-        return "./icons/animated/thunder.svg";
-    } else if (weatherCode === 95 || weatherCode === 96 || weatherCode === 99) {
-        return "./icons/animated/thunderstorms.svg";
+    for (const weatherType in weatherIcons) {
+        if (weatherIcons[weatherType].includes(weatherCode)) {
+            return `./icons/animated/${weatherType.toLowerCase()}.svg`;
+        }
     }
 }
 
@@ -164,30 +192,49 @@ function updateMainStatus(data) {
     let number = parseInt(cityDegree.innerHTML);
     let humidityPercentage = parseInt(humidity.innerHTML);
 
-    cityName.innerText = data.name;
-    number = Math.floor(data.main.temp);
-    humidityPercentage = data.main.humidity
-    cityDegree.innerHTML = number + ' <span>&#8451;</span>';
-    humidity.innerHTML = 'Humidity ' + humidityPercentage + '%';
+    setOpacityZero([cityName, cityDegree, humidity]);
+
+    setTimeout(() => {
+        cityName.innerText = data.name;
+        number = Math.floor(data.main.temp);
+        humidityPercentage = data.main.humidity
+        cityDegree.innerHTML = number + ' <span>&#8451;</span>';
+        humidity.innerHTML = 'Humidity ' + humidityPercentage + '%';
+
+        cityDegree.style.opacity = 1;
+        humidity.style.opacity = 1;
+        cityName.style.opacity = 1;
+    }, 500)
 }
 
-function updateIcon(data) {
-    data = data.toLowerCase();
-    icon.src = `./icons/animated/${data}.svg`;
+function updateIcon(iconName) {
+    setOpacityZero([icon]);
+    setTimeout(() => {
+        icon.src = `./icons/animated/${iconName}.svg`;
+        icon.style.opacity = 1;
+    }, 500)
 }
 
 function updateConditions(data) {
-    airConditions.forEach((element, index) => {
-        if (index === 0) {
-            element.innerText = Math.floor(data.main.feels_like)
-        } else if (index === 1) {
-            element.innerText = data.wind.speed
-        } else if (index === 2) {
-            element.innerText = data.wind.deg
-        } else if (index === 3) {
-            element.innerText = Math.floor(data.main.temp_max)
-        }
-    })
+    setOpacityZero(airConditions)
+
+    setTimeout(() => {
+        airConditions.forEach((element, index) => {
+            if (index === 0) {
+                element.innerText = Math.floor(data.main.feels_like)
+                element.style.opacity = 1;
+            } else if (index === 1) {
+                element.innerText = data.wind.speed
+                element.style.opacity = 1;
+            } else if (index === 2) {
+                element.innerText = data.wind.deg
+                element.style.opacity = 1;
+            } else if (index === 3) {
+                element.innerText = Math.floor(data.main.temp_max)
+                element.style.opacity = 1;
+            }
+        })
+    }, 500)
 }
 
 function convertToDate(apiDate) {
@@ -203,10 +250,11 @@ function convertToDate(apiDate) {
 }
 
 function popAlert() {
-    let alert = document.querySelector('.alert');
     alert.classList.add('show');
+    searchTerm.classList.add('alert')
     setTimeout(() => {
         alert.classList.remove('show');
+        searchTerm.classList.remove('alert')
     }, 3000);
 }
 
