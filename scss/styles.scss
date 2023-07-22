@@ -10,10 +10,35 @@
     font-family: $mainFont;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 7fr 4fr;
+    grid-template-columns: 7fr 4fr;
     grid-template-rows: 1fr repeat(3, 2fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+
+    #alert {
+        // display: none;
+        position: absolute;
+        padding: 1.5rem;
+        left: 1rem;
+        bottom: 2rem;
+        width: 14rem;
+        height: 5rem;
+        background-color: $dogerBlue;
+        border-radius: 1rem;
+        font-family: $mainFont;
+        color: $richBlack;
+        font-size: 1.5rem;
+        font-weight: bolder;
+        text-align: center;
+        transform: translateX(-120%);
+        // opacity: 0;
+        // visibility: hidden;
+        transition: opacity 0.5s, visibility 0.5s, transform 0.5s ;
+    }
+
+    #alert.show{
+        transform: translateX(0%);
+    }
 }
 
 body::-webkit-scrollbar {
@@ -26,60 +51,62 @@ body::-webkit-scrollbar-thumb {
     background-color: $gunmetal;
 }
 
-.nav-bar {
-    grid-area: 1 / 1 / 6 / 2;
-
-    .nav-bar--container {
-        font-family: $mainFont;
-        background-color: $gunmetal;
-        border-radius: 1.5rem;
-        height: 96vh;
-        margin: 1rem 1rem 1rem 1rem;
-        width: 5.8rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        .nav-item {
-            margin: 3.5rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            i {
-                font-size: 1.1rem;
-            }
-
-            p {
-                font-size: 0.8rem;
-                font-weight: 800;
-            }
-        }
-    }
-}
-
 .main {
-    grid-area: 1 / 2 / 5 / 3;
+    grid-area: 1 / 1 / 5 / 2;
     height: 100%;
+    margin-left: 1rem;
 
-    .search-bar {
+    .search-bar__container {
         width: 100%;
-        height: 3rem;
-        padding: 1rem;
-        margin-top: 1rem;
-        border-radius: 1rem;
-        border: none;
-        background-color: $gunmetal;
-        font-family: $mainFont;
-        color: $platinum;
-        font-size: 1rem;
-        font-weight: 900;
+        display: flex;
 
-        &:focus {
+        #search-button {
+            margin-top: 1rem;
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            width: 5rem;
+            border: none;
             outline: none;
+            background-color: $dogerBlue;
+            font-family: $mainFont;
+            color: $platinum;
+            font-weight: 900;
+
+            &:hover {
+                box-shadow: 0px 0px 29px -7px rgb(2, 101, 134);
+            }
+
+            &:active {
+                box-shadow: inset 0px 0px 29px -7px #022e4e;
+            }
+        }
+
+        .search-bar {
+            width: 100%;
+            height: 3rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+            border: none;
+            background-color: $gunmetal;
+            font-family: $mainFont;
+            color: $platinum;
+            font-size: 1rem;
+            font-weight: 900;
+            transition: box-shadow 0.5s;
+
+            &:focus {
+                outline: none;
+            }
+
+            &.alert{
+                box-shadow: inset 0px 0px 25px -3px rgb(234, 8, 8);
+            }
         }
     }
+
+
 
     .main-header {
         margin: 1.5rem 2rem 1rem 3rem;
@@ -96,15 +123,18 @@ body::-webkit-scrollbar-thumb {
             #city-name {
                 font-size: 3rem;
                 font-weight: 900;
+                transition: opacity 0.5s ease;
             }
 
-            #rain-chance {
+            #humidity {
                 color: $slateGray;
                 font-weight: 600;
+                transition: opacity 0.5s ease;
             }
 
             .city-degree {
                 font-size: 3.5rem;
+                transition: opacity 0.5s ease;
             }
         }
 
@@ -115,6 +145,7 @@ body::-webkit-scrollbar-thumb {
             .icon {
                 // transform: scale(4);
                 margin-top: -5rem;
+                transition: opacity 0.5s ease;
             }
         }
     }
@@ -147,10 +178,12 @@ body::-webkit-scrollbar-thumb {
                 // border-right: 1px solid $slateGray;
                 .item-icon {
                     margin: 0.5rem auto;
+                    transition: opacity 0.5s ease;
                 }
 
                 .item-degree {
                     text-align: center;
+                    transition: opacity 0.5s ease;
                 }
             }
         }
@@ -180,6 +213,7 @@ body::-webkit-scrollbar-thumb {
             .info {
                 font-weight: bolder;
                 font-size: 2rem;
+                transition: opacity 0.5s ease;
             }
 
             .item__header {
@@ -196,11 +230,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 .aside {
-    // background-color: yellowgreen;
-    grid-area: 1 / 3 / 5 / 4;
+    grid-area: 1 / 2 / 5 / 3;
     background-color: $gunmetal;
     border-radius: 1.5rem;
     margin: 1rem;
+
+    &--icon {
+        transition: opacity 0.5s ease;
+    }
+
+    .degree {
+        transition: opacity 0.5s ease;
+    }
 
     &__header {
         padding-top: 1rem;
@@ -226,6 +267,7 @@ body::-webkit-scrollbar-thumb {
 
         .day {
             width: 5rem;
+            transition: opacity 0.5s ease;
         }
     }
 }
@@ -234,26 +276,13 @@ body::-webkit-scrollbar-thumb {
     #app {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 6rem repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
     }
 
-    .nav-bar {
-        grid-area: 1 / 1 / 2 / 5;
-        margin-right: 2rem;
-
-        .nav-bar--container {
-            position: sticky;
-            height: 5rem;
-            width: 100%;
-            flex-direction: row;
-            justify-content: space-around;
-        }
-    }
-
     .main {
-        grid-area: 2 / 1 / 6 / 3;
+        grid-area: 1 / 1 / 5 / 3;
         margin-left: 1rem;
 
         .items {
@@ -274,29 +303,41 @@ body::-webkit-scrollbar-thumb {
     }
 
     .aside {
-        grid-area: 2 / 3 / 6 / 5;
+        grid-area: 1 / 3 / 5 / 5;
     }
 }
 
 @media (max-width: 1280px) {
     #app {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 6rem repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
     }
 
-    .nav-bar {
-        grid-area: 1 / 1 / 2 / 5;
-    }
-
     .main {
-        grid-area: 2 / 1 / 4 / 5;
+        grid-area: 1 / 1 / 3 / 5;
         margin-right: 1rem;
 
+        .city-degree {
+            font-size: 2.6rem !important;
+        }
+
+        .main-header {
+            margin: 0.8rem;
+
+            .weather-icon {
+
+                .icon {
+                    width: 150px !important;
+                    height: 150px !important;
+                }
+            }
+        }
+
         .forecast {
-            min-height: 15rem;
-            max-height: 20rem;
+            height: 19rem;
+
             .items-container {
                 justify-content: space-around;
                 flex-wrap: wrap;
@@ -305,6 +346,7 @@ body::-webkit-scrollbar-thumb {
 
         .air-conditions {
             min-height: 15rem;
+
             .items {
                 flex-wrap: wrap;
             }
@@ -312,6 +354,46 @@ body::-webkit-scrollbar-thumb {
     }
 
     .aside {
-        grid-area: 4 / 1 / 6 / 5;
+        grid-area: 3 / 1 / 5 / 5;
     }
 }
+
+// 1. CLEAR:
+//    - Background Color: #68B8E0
+//    - Text Color: #FFFFFF
+//    - Gradient: linear-gradient(135deg, #68B8E0, #42A1DB)
+
+// 2. CLOUDY:
+//    - Background Color: #D0D0D0
+//    - Text Color: #333333
+//    - Gradient: linear-gradient(135deg, #D0D0D0, #A0A0A0)
+
+// 3. FOG:
+//    - Background Color: #C8C8C8
+//    - Text Color: #444444
+//    - Gradient: linear-gradient(135deg, #C8C8C8, #A8A8A8)
+
+// 4. DRIZZLE:
+//    - Background Color: #A6B6D0
+//    - Text Color: #FFFFFF
+//    - Gradient: linear-gradient(135deg, #A6B6D0, #8A9CBF)
+
+// 5. RAIN:
+//    - Background Color: #6A92B0
+//    - Text Color: #FFFFFF
+//    - Gradient: linear-gradient(135deg, #6A92B0, #54789A)
+
+// 6. SNOW:
+//    - Background Color: #F2F2F2
+//    - Text Color: #333333
+//    - Gradient: linear-gradient(135deg, #F2F2F2, #D8D8D8)
+
+// 7. THUNDER:
+//    - Background Color: #52575D
+//    - Text Color: #FFFFFF
+//    - Gradient: linear-gradient(135deg, #52575D, #33393F)
+
+// 8. THUNDERSTORMS:
+//    - Background Color: #404040
+//    - Text Color: #FFFFFF
+//    - Gradient: linear-gradient(135deg, #404040, #303030)
