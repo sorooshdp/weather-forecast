@@ -15,28 +15,14 @@
 
 <body>
 	<div id="app">
-		<nav class="nav-bar">
-			<div class="nav-bar--container">
-				<div class="nav-item">
-					<i class="fa-solid fa-cloud"></i>
-					<p>Weather</p>
-				</div>
-				<div class="nav-item">
-					<i class="fa-solid fa-list"></i>
-					<p>Cities</p>
-				</div>
-				<div class="nav-item">
-					<i class="fa-solid fa-map"></i>
-					<p>Map</p>
-				</div>
-				<div class="nav-item">
-					<i class="fa-solid fa-sliders"></i>
-					<p>Settings</p>
-				</div>
-			</div>
-		</nav>
 		<main class="main">
-			<input type="text" class="search-bar" placeholder="Search for Cities...">
+			<div class="search-bar__container">
+				<input type="text" class="search-bar" placeholder="Search for Cities...">
+				<button id="search-button">search</button>
+				<!-- <div class="list-container">
+
+				</div> -->
+			</div>
 			<div class="main-header">
 				<div class="city-info">
 					<div>
@@ -231,6 +217,9 @@
 				</div>
 			</div>
 		</aside>
+		<div id="alert">
+			Input is invalid
+		</div>
 	</div>
 
 	<script src="./js/fontAwesome.js"></script>
