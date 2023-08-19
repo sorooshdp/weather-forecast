@@ -1,3 +1,5 @@
+import cities from './cities.js'
+
 const icon = document.querySelector('.icon');
 const airConditions = document.querySelectorAll('.info');
 const hourlyIcons = document.querySelectorAll('.hourly-icon');
@@ -12,6 +14,9 @@ const alert = document.querySelector('#alert');
 let cityName = document.querySelector('#city-name');
 let cityDegree = document.querySelector('.city-degree');
 let humidity = document.querySelector('#humidity');
+let listContainer = document.querySelector('.list-container');
+let isFetchingCities = false;
+let throttleTimeout;
 
 const weatherIcons = {
     CLEAR: [0],
@@ -39,6 +44,18 @@ searchTerm.addEventListener('keypress', (event) => {
 searchButton.addEventListener('click', () => {
     if (searchTerm.value !== '') getMainWeatherData(searchTerm.value)
     else popAlert();
+})
+
+searchTerm.addEventListener('input' , () => {
+    const userInput = searchTerm.value.trim()
+
+    if(userInput === ''){
+        changeDisplay(listContainer,'none')
+        return;
+    } else if (userInput !== '') {
+        changeDisplay(listContainer,'block')
+        throttle(() => updateList(userInput),300)
+    }
 })
 
 function getHourlyWeatherData(latitude, longitude, mainData) {
@@ -88,6 +105,19 @@ function setOpacityZero(args) {
     args.forEach(element => {
         element.style.opacity = 0;
     })
+}
+
+const updateList = (userInput) =>{
+    const suggestionsHTML = '';
+    const filteredCities = cities.filter((city) => {
+        city.toLowerCase().startsWith(userInput.trim().toLowerCase())
+    })
+
+    for (let i = 0; i < 5; i++) {
+        suggestionsHTML += `<div class="suggestion">${filteredCities[i]}</div>`;
+    }
+
+    listContainer.innerHTML = suggestionsHTML;
 }
 
 function updateSevenDayForecast(data) {
@@ -251,10 +281,27 @@ function convertToDate(apiDate) {
 
 function popAlert() {
     alert.classList.add('show');
-    searchTerm.classList.add('alert')
+    searchTerm.classList.add('alert');
     setTimeout(() => {
         alert.classList.remove('show');
         searchTerm.classList.remove('alert')
     }, 3000);
 }
 
+const changeDisplay = (element,state) => {
+    element.style.display = `${state}`
+}
+
+const throttle = (callback , delay) => {
+    isFetchingCities = false;
+
+    if(!isFetchingCities){
+        isFetchingCities = true;
+        callback();
+        throttleTimeout = setTimeout(() => {
+            clearTimeout(throttleTimeout);
+            isFetchingCities = false;
+
+        }, delay)
+    }
+}
