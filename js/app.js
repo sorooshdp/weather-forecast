@@ -1,4 +1,4 @@
-import cities from './cities.js'
+import cities from "./cities.js";
 
 const icon = document.querySelector('.icon');
 const airConditions = document.querySelectorAll('.info');
@@ -15,8 +15,7 @@ let cityName = document.querySelector('#city-name');
 let cityDegree = document.querySelector('.city-degree');
 let humidity = document.querySelector('#humidity');
 let listContainer = document.querySelector('.list-container');
-let isFetchingCities = false;
-let throttleTimeout;
+let isThrottled = false;    
 
 const weatherIcons = {
     CLEAR: [0],
@@ -46,17 +45,68 @@ searchButton.addEventListener('click', () => {
     else popAlert();
 })
 
-searchTerm.addEventListener('input' , () => {
-    const userInput = searchTerm.value.trim()
+const throttle = (callback, delay) => {
+    isThrottled = false;
 
-    if(userInput === ''){
-        changeDisplay(listContainer,'none')
-        return;
-    } else if (userInput !== '') {
-        changeDisplay(listContainer,'block')
-        throttle(() => updateList(userInput),300)
+    return (...args) => {
+        if (!isThrottled) {
+            callback(...args);
+            isThrottled = true;
+            setTimeout(() => {
+                isThrottled = false;
+            }, delay);
+        }
+    };
+};
+
+const updateList = (userInput) =>{
+    let suggestionsHTML = '';
+    const filteredCities = cities.filter((city) => {
+       return city.toLowerCase().startsWith(userInput.trim().toLowerCase())
+    })
+
+    const maxSuggestions = Math.min(filteredCities.length, 6);
+
+    for (let i = 0; i < maxSuggestions; i++) {
+        suggestionsHTML += `<li class="suggestion"> ${filteredCities[i]} </li>`;
+    } 
+
+    listContainer.innerHTML = suggestionsHTML;
+
+    if (maxSuggestions > 0) {
+        addClickHandler(listContainer);
+        changeDisplay(listContainer, 'block');
+    } else {
+        changeDisplay(listContainer, 'none'); 
     }
-})
+}
+
+const addClickHandler = (container) => {
+    const suggestions = container.querySelectorAll('.suggestion');
+    
+    suggestions.forEach((suggestion) => {
+        suggestion.addEventListener('click', (event) => {
+            const selectedCity = event.target.textContent;
+            getMainWeatherData(selectedCity);
+            changeDisplay(listContainer, 'none');
+            searchTerm.value = '';
+        });
+    });
+};
+
+const updateListThrottled = throttle(updateList, 500);
+
+searchTerm.addEventListener('input', () => {
+    const userInput = searchTerm.value.trim();
+
+    if (userInput === '') {
+        changeDisplay(listContainer, 'none');
+        return;
+    } else {
+        changeDisplay(listContainer, 'block');
+        updateListThrottled(userInput);
+    }
+});
 
 function getHourlyWeatherData(latitude, longitude, mainData) {
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`)
@@ -105,19 +155,6 @@ function setOpacityZero(args) {
     args.forEach(element => {
         element.style.opacity = 0;
     })
-}
-
-const updateList = (userInput) =>{
-    const suggestionsHTML = '';
-    const filteredCities = cities.filter((city) => {
-        city.toLowerCase().startsWith(userInput.trim().toLowerCase())
-    })
-
-    for (let i = 0; i < 5; i++) {
-        suggestionsHTML += `<div class="suggestion">${filteredCities[i]}</div>`;
-    }
-
-    listContainer.innerHTML = suggestionsHTML;
 }
 
 function updateSevenDayForecast(data) {
@@ -292,16 +329,3 @@ const changeDisplay = (element,state) => {
     element.style.display = `${state}`
 }
 
-const throttle = (callback , delay) => {
-    isFetchingCities = false;
-
-    if(!isFetchingCities){
-        isFetchingCities = true;
-        callback();
-        throttleTimeout = setTimeout(() => {
-            clearTimeout(throttleTimeout);
-            isFetchingCities = false;
-
-        }, delay)
-    }
-}
