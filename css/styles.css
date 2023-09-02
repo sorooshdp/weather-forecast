@@ -49,6 +49,14 @@ body::-webkit-scrollbar-thumb {
   .main .search-bar__container {
     width: 100%;
     display: flex; }
+    .main .search-bar__container .list-container {
+      position: absolute;
+      height: 67.5%;
+      width: 48.8%;
+      background-color: #202C3C;
+      margin-top: 4.2rem;
+      border-radius: 1rem;
+      display: none; }
     .main .search-bar__container #search-button {
       margin-top: 1rem;
       border-top-right-radius: 1rem;

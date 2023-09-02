@@ -1,4 +1,4 @@
-[
+export const cities = [
   "Ḩeşār-e Sefīd",
   "‘Ayn Ḩalāqīm",
   "Taglag",
@@ -209579,3 +209579,5 @@
   "Голубинка",
   "Gerton"
 ]
+
+export default cities;
