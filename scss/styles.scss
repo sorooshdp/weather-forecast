@@ -16,7 +16,6 @@
     grid-row-gap: 0px;
 
     #alert {
-        // display: none;
         position: absolute;
         padding: 1.5rem;
         left: 1rem;
@@ -357,43 +356,3 @@ body::-webkit-scrollbar-thumb {
         grid-area: 3 / 1 / 5 / 5;
     }
 }
-
-// 1. CLEAR:
-//    - Background Color: #68B8E0
-//    - Text Color: #FFFFFF
-//    - Gradient: linear-gradient(135deg, #68B8E0, #42A1DB)
-
-// 2. CLOUDY:
-//    - Background Color: #D0D0D0
-//    - Text Color: #333333
-//    - Gradient: linear-gradient(135deg, #D0D0D0, #A0A0A0)
-
-// 3. FOG:
-//    - Background Color: #C8C8C8
-//    - Text Color: #444444
-//    - Gradient: linear-gradient(135deg, #C8C8C8, #A8A8A8)
-
-// 4. DRIZZLE:
-//    - Background Color: #A6B6D0
-//    - Text Color: #FFFFFF
-//    - Gradient: linear-gradient(135deg, #A6B6D0, #8A9CBF)
-
-// 5. RAIN:
-//    - Background Color: #6A92B0
-//    - Text Color: #FFFFFF
-//    - Gradient: linear-gradient(135deg, #6A92B0, #54789A)
-
-// 6. SNOW:
-//    - Background Color: #F2F2F2
-//    - Text Color: #333333
-//    - Gradient: linear-gradient(135deg, #F2F2F2, #D8D8D8)
-
-// 7. THUNDER:
-//    - Background Color: #52575D
-//    - Text Color: #FFFFFF
-//    - Gradient: linear-gradient(135deg, #52575D, #33393F)
-
-// 8. THUNDERSTORMS:
-//    - Background Color: #404040
-//    - Text Color: #FFFFFF
-//    - Gradient: linear-gradient(135deg, #404040, #303030)
