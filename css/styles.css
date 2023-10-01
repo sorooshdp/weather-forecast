@@ -9,6 +9,8 @@
   background: black;
   background: linear-gradient(58deg, black 2%, #0b131e 94%);
   font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: italic;
   height: 100%;
   display: grid;
   grid-template-columns: 7fr 4fr;
@@ -34,11 +36,11 @@
   #app #alert.show {
     transform: translateX(0%); }
 
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.5rem;
   background-color: #0B131E; }
 
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   border-radius: 0.5rem;
   background-color: #202C3C; }
 
@@ -48,7 +50,8 @@ body::-webkit-scrollbar-thumb {
   margin-left: 1rem; }
   .main .search-bar__container {
     width: 100%;
-    display: flex; }
+    display: flex;
+    font-weight: 100; }
     .main .search-bar__container .list-container {
       position: absolute;
       height: 67.5%;
@@ -99,9 +102,10 @@ body::-webkit-scrollbar-thumb {
       border: none;
       background-color: #202C3C;
       font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-style: italic;
       color: #DFE3E6;
       font-size: 1rem;
-      font-weight: 900;
       transition: box-shadow 0.5s; }
       .main .search-bar__container .search-bar:focus {
         outline: none; }
@@ -120,6 +124,7 @@ body::-webkit-scrollbar-thumb {
       .main .main-header .city-info #city-name {
         font-size: 3rem;
         font-weight: 900;
+        font-style: normal;
         transition: opacity 0.5s ease; }
       .main .main-header .city-info #humidity {
         color: #69717E;
@@ -127,6 +132,7 @@ body::-webkit-scrollbar-thumb {
         transition: opacity 0.5s ease; }
       .main .main-header .city-info .city-degree {
         font-size: 3.5rem;
+        font-weight: 500;
         transition: opacity 0.5s ease; }
     .main .main-header .weather-icon {
       margin: 2rem 2rem 1rem 2rem;
@@ -136,13 +142,15 @@ body::-webkit-scrollbar-thumb {
         transition: opacity 0.5s ease; }
   .main .forecast {
     background-color: #202C3C;
-    height: 15rem;
+    height: fit-content;
     border-radius: 1.5rem; }
     .main .forecast .forecast-header {
-      padding-left: 1rem;
+      font-weight: 700;
+      font-style: normal;
+      padding-left: 2rem;
       padding-top: 1rem; }
     .main .forecast .items-container {
-      margin-top: 2rem;
+      margin-top: 1rem;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -151,28 +159,37 @@ body::-webkit-scrollbar-thumb {
         height: 5rem;
         border: 1px solid #69717E; }
       .main .forecast .items-container .item {
-        padding: 0 2rem; }
+        padding: 0 2rem;
+        margin-bottom: 1rem; }
+        .main .forecast .items-container .item .item-head {
+          width: calc(100% + 2rem);
+          font-weight: 500; }
         .main .forecast .items-container .item .item-icon {
-          margin: 0.5rem auto;
+          margin: 0rem auto;
           transition: opacity 0.5s ease; }
+        .main .forecast .items-container .item .hourly-icon {
+          max-height: 70px;
+          max-width: 70px; }
         .main .forecast .items-container .item .item-degree {
+          font-weight: 500;
           text-align: center;
           transition: opacity 0.5s ease; }
   .main .air-conditions {
     background-color: #202C3C;
-    height: 11rem;
+    height: fit-content;
     border-radius: 1.5rem;
     margin-top: 1rem; }
     .main .air-conditions h3 {
-      padding-left: 1rem;
+      padding-left: 2rem;
       padding-top: 1rem; }
     .main .air-conditions .items {
-      margin-top: 2rem;
+      margin-top: 1rem;
       display: flex;
       justify-content: space-around;
       align-items: flex-start; }
       .main .air-conditions .items div {
-        width: 10rem; }
+        width: 10rem;
+        margin-bottom: 0.5rem; }
       .main .air-conditions .items .info {
         font-weight: bolder;
         font-size: 2rem;
@@ -187,15 +204,17 @@ body::-webkit-scrollbar-thumb {
 .aside {
   grid-area: 1 / 2 / 5 / 3;
   background-color: #202C3C;
+  height: calc(100vh - 2rem);
   border-radius: 1.5rem;
-  margin: 1rem; }
+  margin: 1rem;
+  overflow: hidden; }
   .aside--icon {
     transition: opacity 0.5s ease; }
   .aside .degree {
     transition: opacity 0.5s ease; }
   .aside__header {
     padding-top: 1rem;
-    padding-left: 1rem; }
+    padding-left: 2rem; }
   .aside--container {
     display: flex;
     flex-direction: column; }
@@ -204,7 +223,7 @@ body::-webkit-scrollbar-thumb {
       border: 1px solid #69717E;
       margin: 0 auto; }
   .aside--item {
-    height: 6.02rem;
+    height: 6rem;
     display: flex;
     justify-content: space-around;
     align-items: center; }
