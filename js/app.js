@@ -1,5 +1,6 @@
 import cities from "./cities.js";
 
+const loadingPage = document.querySelector('#loading-page');
 const icon = document.querySelector('.icon');
 const airConditions = document.querySelectorAll('.info');
 const hourlyIcons = document.querySelectorAll('.hourly-icon');
@@ -11,9 +12,9 @@ const asideDays = document.querySelectorAll('.day');
 const searchButton = document.querySelector('#search-button');
 const searchTerm = document.querySelector('.search-bar');
 const alert = document.querySelector('#alert');
-let cityName = document.querySelector('#city-name');
-let cityDegree = document.querySelector('.city-degree');
-let humidity = document.querySelector('#humidity');
+const cityName = document.querySelector('#city-name');
+const cityDegree = document.querySelector('.city-degree');
+const humidity = document.querySelector('#humidity');
 let listContainer = document.querySelector('.list-container');
 let isThrottled = false;    
 
@@ -33,15 +34,40 @@ const api = {
     BASE_URL: 'https://api.openweathermap.org/data/2.5/'
 }
 
+// Wait for the page to load
+window.addEventListener("load", async function () {
+    loadingPage.style.display = "block";
+
+    try {
+        // Call the getUserLocation function and wait for it to complete
+        await getUserLocation();
+
+        // Once the function completes, you can hide the loading page
+        loadingPage.style.display = "none"; 
+    } catch (error) {
+        // Handle errors here
+        console.error('An error occurred:', error);
+    }
+});
+
 searchTerm.addEventListener('keypress', (event) => {
     if (event.keyCode === 13) {
-        if (searchTerm.value !== '') getMainWeatherData(searchTerm.value)
+        if (searchTerm.value !== '') {
+            getMainWeatherData(searchTerm.value)
+            searchTerm.value = '';
+            changeDisplay(listContainer, 'none')
+        }
+
         else popAlert();
     }
 })
 
 searchButton.addEventListener('click', () => {
-    if (searchTerm.value !== '') getMainWeatherData(searchTerm.value)
+    if (searchTerm.value !== ''){
+        getMainWeatherData(searchTerm.value)
+        searchTerm.value = ''
+        changeDisplay(listContainer, 'none')
+    }
     else popAlert();
 })
 
@@ -101,7 +127,6 @@ searchTerm.addEventListener('input', () => {
 
     if (userInput === '') {
         changeDisplay(listContainer, 'none');
-        return;
     } else {
         changeDisplay(listContainer, 'block');
         updateListThrottled(userInput);
@@ -127,22 +152,42 @@ function getHourlyWeatherData(latitude, longitude, mainData) {
         })
 }
 
-function getMainWeatherData(searchTerm) {
-    fetch(`${api.BASE_URL}weather?q=${searchTerm}&appid=${api.API_KEY}&units=metric`)
-        .then((response) => {
-            if (!response.ok) {
+function getMainWeatherData(...coordinates) {
+    //handels user input 
+    if(coordinates.length === 1){
+        fetch(`${api.BASE_URL}weather?q=${coordinates}&appid=${api.API_KEY}&units=metric`)
+            .then((response) => {
+                if (!response.ok) {
+                    popAlert();
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                getHourlyWeatherData(data.coord.lat, data.coord.lon, data);
+            })
+            .catch((error) => {
                 popAlert();
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            getHourlyWeatherData(data.coord.lat, data.coord.lon, data);
-        })
-        .catch((error) => {
-            popAlert();
-            console.error('There was a problem with the fetch operation:', error);
-        });
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    } else if ( coordinates.length === 2) { /// handels getting information for user's location
+            const [ lat , lon ] = coordinates;
+            fetch(`${api.BASE_URL}weather?lat=${lat}&lon=${lon}&appid=${api.API_KEY}&units=metric`)
+                .then((response) => {
+                    if (!response.ok) {
+                        popAlert();
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    getHourlyWeatherData(lat, lon, data);
+                })
+                .catch((error) => {
+                    popAlert();
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+    }
 }
 
 function showResult(data) {
@@ -180,7 +225,7 @@ function updateSevenDayForecast(data) {
             element.src = updateIconByWeatherCode(weatherCodes[index]);
             element.style.opacity = 1;
         })
-    }, 500)
+    }, 200)
 }
 
 function dateToDay(date) {
@@ -202,7 +247,7 @@ function updateHourlyWeatherData(weatherData) {
     const weatherDegrees = weatherData.hourly.temperature_2m;
     let todayHours = [];
     let hour = todaysDate.getHours();
-    let ampm = hour >= 12 ? 'PM' : 'AM';
+    const ampm = hour >= 12 ? 'PM' : 'AM';
     hour = hour % 12;
     hour = hour ? hour : 12;
     hour = `${hour}:00 ${ampm}`;
@@ -243,7 +288,7 @@ function updateHourlyWeatherData(weatherData) {
             element.src = updateIconByWeatherCode(weatherCodes[todayHours[index][1]]);
             element.style.opacity = 1
         });
-    }, 500)
+    }, 200)
 
 }
 
@@ -253,6 +298,7 @@ function updateIconByWeatherCode(weatherCode) {
             return `./icons/animated/${weatherType.toLowerCase()}.svg`;
         }
     }
+    return null;
 }
 
 function updateMainStatus(data) {
@@ -262,16 +308,21 @@ function updateMainStatus(data) {
     setOpacityZero([cityName, cityDegree, humidity]);
 
     setTimeout(() => {
+        if( data.name.length > 9) {
+            cityName.style.fontsize = '1rem';
+        } else {
+            cityName.style.fontsize = '3rem'
+        }
         cityName.innerText = data.name;
         number = Math.floor(data.main.temp);
         humidityPercentage = data.main.humidity
-        cityDegree.innerHTML = number + ' <span>&#8451;</span>';
-        humidity.innerHTML = 'Humidity ' + humidityPercentage + '%';
+        cityDegree.innerHTML = ` ${number} <span>&#8451;</span> `;
+        humidity.innerHTML =    `Humidity ${humidityPercentage}  %`;
 
         cityDegree.style.opacity = 1;
         humidity.style.opacity = 1;
         cityName.style.opacity = 1;
-    }, 500)
+    }, 200)
 }
 
 function updateIcon(iconName) {
@@ -279,7 +330,7 @@ function updateIcon(iconName) {
     setTimeout(() => {
         icon.src = `./icons/animated/${iconName}.svg`;
         icon.style.opacity = 1;
-    }, 500)
+    }, 200)
 }
 
 function updateConditions(data) {
@@ -301,7 +352,7 @@ function updateConditions(data) {
                 element.style.opacity = 1;
             }
         })
-    }, 500)
+    }, 200)
 }
 
 function convertToDate(apiDate) {
@@ -329,3 +380,38 @@ const changeDisplay = (element,state) => {
     element.style.display = `${state}`
 }
 
+const getUserLocation = function()  {
+    return new Promise((resolve, reject) => {
+        if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const coordinates = [position.coords.latitude, position.coords.longitude];
+                        getMainWeatherData(coordinates[0],coordinates[1]);
+                        resolve();
+                    },
+                    function (error) {
+                        // Handle any errors that occur
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                console.error("User denied the request for Geolocation.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                console.error("Location information is unavailable.");
+                                break;
+                            case error.TIMEOUT:
+                                console.error("The request to get user location timed out.");
+                                break;
+                            default:
+                                console.error("An unknown error occurred.");
+                                break;
+                        }
+                        reject(error);
+                    }
+                );
+            } else {
+                console.log('geolocation is not available')
+                reject("Geolocation is not available");
+            }
+    })
+}
+getUserLocation();
