@@ -27,12 +27,10 @@
         border-radius: 1rem;
         font-family: $mainFont;
         color: $richBlack;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: bolder;
         text-align: center;
         transform: translateX(-120%);
-        // opacity: 0;
-        // visibility: hidden;
         transition: opacity 0.5s, visibility 0.5s, transform 0.5s ;
     }
 
@@ -63,14 +61,13 @@
 
         .list-container {
             position: absolute;
-            height: 67.5%;
-            width : 47.65%;
+            max-height: 67.5%;
+            width : 62.55%;
             background-color: $gunmetal;
             margin-top: 4.2rem;
             border-radius: 1.5rem;
             display: none;
             box-shadow: 0px 0px 9px -1px $dogerBlue;
-            // transition: all 300ms;
 
             .suggestion {
                 list-style: none;
@@ -78,12 +75,12 @@
                 font-weight: 700;
                 width: 100%;
                 padding: 1.385rem 2rem;
+                cursor: pointer;
 
                 &:hover{
                     background-color: #022e4e;
                 }
 
-                
                &:first-child {
                     border-top-left-radius: 1.5rem;
                     border-top-right-radius: 1.5rem;
@@ -112,7 +109,7 @@
             font-family: $mainFont;
             color: $platinum;
             font-weight: 900;
-
+            cursor: pointer;
             &:hover {
                 box-shadow: 0px 0px 29px -7px rgb(2, 101, 134);
             }
@@ -244,6 +241,7 @@
 
     .air-conditions {
         background-color: $gunmetal;
+        padding: 1.49rem 0;
         height: fit-content;
         border-radius: 1.5rem;
         margin-top: 1rem;
@@ -357,6 +355,9 @@
         .item__header p {
             font-size: 0.8rem;
         }
+        .forecast {
+            height: fit-content;
+        }
     }
 
     .aside {
@@ -391,7 +392,7 @@
             }
         }
         .forecast {
-            height: 19rem;
+            height: fit-content;
             .items-container {
                 justify-content: space-around;
                 flex-wrap: wrap;
