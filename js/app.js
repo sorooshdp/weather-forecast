@@ -41,7 +41,6 @@ window.addEventListener("load", async function () {
     try {
         // Call the getUserLocation function and wait for it to complete
         await getUserLocation();
-
         // Once the function completes, you can hide the loading page
         loadingPage.style.display = "none"; 
     } catch (error) {
@@ -85,7 +84,7 @@ const throttle = (callback, delay) => {
     };
 };
 
-const updateList = (userInput) =>{
+const updateList = (userInput) => {
     let suggestionsHTML = '';
     const filteredCities = cities.filter((city) => {
        return city.toLowerCase().startsWith(userInput.trim().toLowerCase())
@@ -112,7 +111,7 @@ const addClickHandler = (container) => {
     
     suggestions.forEach((suggestion) => {
         suggestion.addEventListener('click', (event) => {
-            const selectedCity = event.target.textContent;
+            const selectedCity = event.target.textContent.toLowerCase().trim();
             getMainWeatherData(selectedCity);
             changeDisplay(listContainer, 'none');
             searchTerm.value = '';
@@ -133,7 +132,7 @@ searchTerm.addEventListener('input', () => {
     }
 });
 
-function getHourlyWeatherData(latitude, longitude, mainData) {
+const getHourlyWeatherData = (latitude, longitude, mainData) =>  {
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`)
         .then((response) => {
             if (!response.ok) {
@@ -153,9 +152,10 @@ function getHourlyWeatherData(latitude, longitude, mainData) {
 }
 
 function getMainWeatherData(...coordinates) {
+    console.log(coordinates)
     //handels user input 
     if(coordinates.length === 1){
-        fetch(`${api.BASE_URL}weather?q=${coordinates}&appid=${api.API_KEY}&units=metric`)
+        fetch(`${api.BASE_URL}weather?q=${coordinates[0]}&appid=${api.API_KEY}&units=metric`)
             .then((response) => {
                 if (!response.ok) {
                     popAlert();
@@ -308,10 +308,10 @@ function updateMainStatus(data) {
     setOpacityZero([cityName, cityDegree, humidity]);
 
     setTimeout(() => {
-        if( data.name.length > 9) {
-            cityName.style.fontsize = '1rem';
+        if( data.name.length > 15) {
+            cityName.style.fontSize = '1.9rem';
         } else {
-            cityName.style.fontsize = '3rem'
+            cityName.style.fontSize = '3rem'
         }
         cityName.innerText = data.name;
         number = Math.floor(data.main.temp);
