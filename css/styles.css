@@ -114,7 +114,7 @@
       .main .search-bar__container .search-bar.alert {
         box-shadow: inset 0px 0px 25px -3px #ea0808; }
   .main .main-header {
-    margin: 1.5rem 2rem 1rem 3rem;
+    margin: 1.5rem 2rem 0.5rem 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between; }

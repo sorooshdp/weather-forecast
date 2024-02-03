@@ -16,7 +16,7 @@ const cityName = document.querySelector('#city-name');
 const cityDegree = document.querySelector('.city-degree');
 const humidity = document.querySelector('#humidity');
 let listContainer = document.querySelector('.list-container');
-let isThrottled = false;    
+let isThrottled = false;   
 
 const weatherIcons = {
     CLEAR: [0],
@@ -45,6 +45,7 @@ window.addEventListener("load", async function () {
         loadingPage.style.display = "none"; 
     } catch (error) {
         // Handle errors here
+        loadingPage.style.display = "none"
         console.error('An error occurred:', error);
     }
 });
@@ -72,6 +73,7 @@ searchButton.addEventListener('click', () => {
 
 const throttle = (callback, delay) => {
     isThrottled = false;
+    console.log("hi")
 
     return (...args) => {
         if (!isThrottled) {
@@ -410,8 +412,8 @@ const getUserLocation = function()  {
                 );
             } else {
                 console.log('geolocation is not available')
-                reject("Geolocation is not available");
             }
     })
 }
 getUserLocation();
+getMainWeatherData("london")
