@@ -1,5 +1,5 @@
-@import './resets';
-@import './variables';
+@import "./resets";
+@import "./variables";
 
 #app {
     color: $platinum;
@@ -9,7 +9,7 @@
     font-family: $mainFont;
     font-weight: $fontThin;
     font-style: italic;
-    height: 100%;
+    min-height: 100%;
     display: grid;
     grid-template-columns: 7fr 4fr;
     grid-template-rows: 1fr repeat(3, 2fr);
@@ -31,10 +31,10 @@
         font-weight: bolder;
         text-align: center;
         transform: translateX(-120%);
-        transition: opacity 0.5s, visibility 0.5s, transform 0.5s ;
+        transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
     }
 
-    #alert.show{
+    #alert.show {
         transform: translateX(0%);
     }
 }
@@ -52,6 +52,7 @@
 .main {
     grid-area: 1 / 1 / 5 / 2;
     height: 100%;
+    margin-bottom: 1rem;
     margin-left: 1rem;
 
     .search-bar__container {
@@ -62,7 +63,7 @@
         .list-container {
             position: absolute;
             max-height: 67.5%;
-            width : 62.55%;
+            width: 62.55%;
             background-color: $gunmetal;
             margin-top: 4.2rem;
             border-radius: 1.5rem;
@@ -77,11 +78,11 @@
                 padding: 1.385rem 2rem;
                 cursor: pointer;
 
-                &:hover{
+                &:hover {
                     background-color: #022e4e;
                 }
 
-               &:first-child {
+                &:first-child {
                     border-top-left-radius: 1.5rem;
                     border-top-right-radius: 1.5rem;
                 }
@@ -96,7 +97,6 @@
                 }
             }
         }
-
 
         #search-button {
             margin-top: 1rem;
@@ -139,7 +139,7 @@
                 outline: none;
             }
 
-            &.alert{
+            &.alert {
                 box-shadow: inset 0px 0px 25px -3px rgb(234, 8, 8);
             }
         }
@@ -282,6 +282,8 @@
 }
 
 .aside {
+    max-height: 100%;
+    margin-bottom: 1rem;
     grid-area: 1 / 2 / 5 / 3;
     background-color: $gunmetal;
     height: calc(100vh - 2rem);
@@ -344,7 +346,7 @@
         }
         .list-container {
             max-height: 67.5%;
-            width : 93% !important;
+            width: 93% !important;
         }
         .item-head {
             font-size: 0.7rem;
@@ -377,9 +379,8 @@
         margin-right: 1rem;
         .list-container {
             // height: 81.5%;
-            // width: 94%;   
+            // width: 94%;
             width: 100%;
-
         }
         .city-degree {
             font-size: 2.6rem !important;

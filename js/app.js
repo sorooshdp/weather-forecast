@@ -33,7 +33,10 @@ const api = {
     BASE_URL: "https://api.openweathermap.org/data/2.5/",
 };
 
-// Wait for the page to load
+/**
+ * Event listener for when the page loads. Displays the loading screen, 
+ * then attempts to get the user's location and fetch the weather data.
+ */
 window.addEventListener("load", async function () {
     loadingPage.style.display = "block";
 
@@ -48,7 +51,10 @@ window.addEventListener("load", async function () {
         console.error("An error occurred:", error);
     }
 });
-
+/**
+ * Event listener for the search input field. Listens for the 'Enter' keypress
+ * and triggers a weather data fetch based on the search term if it's not empty.
+ */
 searchTerm.addEventListener("keypress", (event) => {
     if (event.keyCode === 13) {
         if (searchTerm.value !== "") {
@@ -58,7 +64,10 @@ searchTerm.addEventListener("keypress", (event) => {
         } else popAlert();
     }
 });
-
+/**
+ * Event listener for the search button. Triggers a weather data fetch
+ * based on the search term if it's not empty.
+ */
 searchButton.addEventListener("click", () => {
     if (searchTerm.value !== "") {
         getMainWeatherData(searchTerm.value);
@@ -66,7 +75,12 @@ searchButton.addEventListener("click", () => {
         changeDisplay(listContainer, "none");
     } else popAlert();
 });
-
+/**
+ * Throttles the execution of the callback function to prevent it from being called too frequently.
+ * @param {Function} callback - The function to throttle.
+ * @param {number} delay - The delay in milliseconds.
+ * @returns {Function} - The throttled function.
+ */
 const throttle = (callback, delay) => {
     let isThrottled = false;
 
@@ -85,7 +99,10 @@ const throttle = (callback, delay) => {
         }
     };
 };
-
+/**
+ * Updates the list of city suggestions based on the user's input.
+ * @param {string} userInput - The input provided by the user in the search bar.
+ */
 const updateList = (userInput) => {
     let suggestionsHTML = "";
     const filteredCities = cities.filter((city) => {
@@ -107,7 +124,10 @@ const updateList = (userInput) => {
         changeDisplay(listContainer, "none");
     }
 };
-
+/**
+ * Adds click event listeners to each suggestion in the container.
+ * @param {HTMLElement} container - The container element that holds the suggestions.
+ */
 const addClickHandler = (container) => {
     const suggestions = container.querySelectorAll(".suggestion");
 
@@ -120,9 +140,15 @@ const addClickHandler = (container) => {
         });
     });
 };
-
+/**
+ * Throttled version of the updateList function to limit the frequency of its execution.
+ */
 const updateListThrottled = throttle(updateList, 555);
 
+/**
+ * Event listener for input events on the search bar. 
+ * It triggers the throttled updateList function based on the user's input.
+ */
 searchTerm.addEventListener("input", () => {
     const userInput = searchTerm.value.trim();
 
@@ -133,7 +159,12 @@ searchTerm.addEventListener("input", () => {
         updateListThrottled(userInput);
     }
 });
-
+/**
+ * Fetches the hourly weather data based on the provided coordinates and main weather data.
+ * @param {number} latitude - The latitude of the location.
+ * @param {number} longitude - The longitude of the location.
+ * @param {object} mainData - The main weather data for the location.
+ */
 const getHourlyWeatherData = (latitude, longitude, mainData) => {
     fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`
@@ -154,7 +185,10 @@ const getHourlyWeatherData = (latitude, longitude, mainData) => {
             console.log("There was an error fetching weather data", error);
         });
 };
-
+/**
+ * Fetches the main weather data based on the provided city name or coordinates.
+ * @param {...string|number} coordinates - The city name or geographical coordinates.
+ */
 function getMainWeatherData(...coordinates) {
     console.log(coordinates);
     //handels user input
@@ -194,19 +228,28 @@ function getMainWeatherData(...coordinates) {
             });
     }
 }
-
+/**
+ * Updates the main weather status and conditions based on the provided data.
+ * @param {object} data - The main weather data for the location.
+ */
 function showResult(data) {
     updateMainStatus(data);
     updateIcon(data.weather[0].main.toLowerCase());
     updateConditions(data);
 }
-
+/**
+ * Sets the opacity of the provided elements to zero.
+ * @param {HTMLElement[]} args - An array of HTML elements whose opacity will be set to zero.
+ */
 function setOpacityZero(args) {
     args.forEach((element) => {
         element.style.opacity = 0;
     });
 }
-
+/**
+ * Updates the seven-day weather forecast using the provided data.
+ * @param {object} data - The weather data containing daily temperature and weather codes.
+ */
 function updateSevenDayForecast(data) {
     const maxTemps = data.daily.temperature_2m_max;
     const minTemps = data.daily.temperature_2m_min;
@@ -232,13 +275,20 @@ function updateSevenDayForecast(data) {
         });
     }, 200);
 }
-
+/**
+ * Converts a date string to a day of the week.
+ * @param {string} date - The date string in a standard format.
+ * @returns {string} The day of the week corresponding to the given date.
+ */
 function dateToDay(date) {
     const newDate = new Date(date);
     const options = { weekday: "long" };
     return newDate.toLocaleString("en-US", options);
 }
-
+/**
+ * Updates the hourly weather data display with the provided weather data.
+ * @param {object} weatherData - The weather data containing hourly temperature and weather codes.
+ */
 function updateHourlyWeatherData(weatherData) {
     const todaysDate = new Date();
     const monthNames = [
@@ -307,7 +357,11 @@ function updateHourlyWeatherData(weatherData) {
         });
     }, 200);
 }
-
+/**
+ * Returns the SVG icon path based on the provided weather code.
+ * @param {number} weatherCode - The numerical code representing the weather condition.
+ * @returns {string|null} The file path to the corresponding weather icon or null if not found.
+ */
 function updateIconByWeatherCode(weatherCode) {
     for (const weatherType in weatherIcons) {
         if (weatherIcons[weatherType].includes(weatherCode)) {
@@ -316,7 +370,10 @@ function updateIconByWeatherCode(weatherCode) {
     }
     return null;
 }
-
+/**
+ * Updates the main status elements such as city name, temperature, and humidity based on the provided data.
+ * @param {object} data - The main weather data including temperature, humidity, and city name.
+ */
 function updateMainStatus(data) {
     let number = parseInt(cityDegree.innerHTML);
     let humidityPercentage = parseInt(humidity.innerHTML);
@@ -340,7 +397,10 @@ function updateMainStatus(data) {
         cityName.style.opacity = 1;
     }, 200);
 }
-
+/**
+ * Updates the weather icon displayed on the page based on the provided icon name.
+ * @param {string} iconName - The name of the weather icon to display.
+ */
 function updateIcon(iconName) {
     setOpacityZero([icon]);
     setTimeout(() => {
@@ -348,7 +408,10 @@ function updateIcon(iconName) {
         icon.style.opacity = 1;
     }, 200);
 }
-
+/**
+ * Updates the displayed weather conditions such as feels like temperature, wind speed, and direction.
+ * @param {object} data - The main weather data including feels like temperature, wind speed, and direction.
+ */
 function updateConditions(data) {
     setOpacityZero(airConditions);
 
@@ -370,7 +433,11 @@ function updateConditions(data) {
         });
     }, 200);
 }
-
+/**
+ * Converts an API date string to an object containing the day, month and day, and time.
+ * @param {string} apiDate - The date string from the API.
+ * @returns {object} An object containing the day, monthAndDay, and time properties.
+ */
 function convertToDate(apiDate) {
     const date = new Date(apiDate);
     const options = { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
@@ -382,7 +449,9 @@ function convertToDate(apiDate) {
         time: dateString.substring(dateString.indexOf("at") + 3),
     };
 }
-
+/**
+ * Displays an alert to the user and changes the appearance of the search term input.
+ */
 function popAlert() {
     alert.classList.add("show");
     searchTerm.classList.add("alert");
@@ -392,10 +461,19 @@ function popAlert() {
     }, 3000);
 }
 
+/**
+ * Changes the display property of the specified element.
+ * @param {HTMLElement} element - The HTML element to modify.
+ * @param {string} state - The display state to set ('block', 'none', etc.).
+ */
 const changeDisplay = (element, state) => {
     element.style.display = `${state}`;
 };
 
+/**
+ * Retrieves the user's current location using the Geolocation API.
+ * @returns {Promise<void>} A promise that resolves when the user's location is successfully obtained.
+ */
 const getUserLocation = function () {
     return new Promise((resolve, reject) => {
         if ("geolocation" in navigator) {
@@ -425,9 +503,10 @@ const getUserLocation = function () {
                 }
             );
         } else {
-            console.log("geolocation is not available");
+            console.log("Geolocation is not available");
         }
     });
 };
+
 getUserLocation();
 getMainWeatherData("london");
