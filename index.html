@@ -5,17 +5,31 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-site-verification" content="8kXVzCHALvo8aN3TjjVvojlw2o-MkZMLlgS8Md967hQ" />
+	<meta name="description" content="Get accurate weather forecasts for any city worldwide. View current weather, hourly forecasts, and 7-day predictions with detailed air conditions.">
+	<meta name="keywords" content="weather forecast, temperature, humidity, wind speed, air conditions, weather app">
+	<meta name="author" content="soroosh.d">
+	<meta name="robots" content="index, follow">
+	<meta property="og:title" content="Weather Forecast - Get Accurate Weather Information">
+	<meta property="og:description" content="Get accurate weather forecasts for any city worldwide. View current weather, hourly forecasts, and 7-day predictions.">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://umbrellaforecast.netlify.app/">
+	<meta property="og:image" content="./icons/favIcon/icons8-umbrella-color-32.png">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Weather Forecast - Get Accurate Weather Information">
+	<meta name="twitter:description" content="Get accurate weather forecasts for any city worldwide. View current weather, hourly forecasts, and 7-day predictions.">
+	<meta name="twitter:image" content="./icons/favIcon/icons8-umbrella-color-32.png">
 	<link rel="stylesheet" href="./css/styles.css">
 	<link rel="stylesheet" href="./css/loadingPage.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,500;0,700;1,100;1,500;1,700&display=swap" rel="stylesheet">
 	<link rel="icon" href="./icons/favIcon/icons8-umbrella-color-32.png" type="image/x-icon">
-	<title>weather</title>
+	<title>Weather Forecast | Get Accurate Weather Information</title>
 </head>
 
 <body>
-	<div id="loading-page">
+	<div id="loading-page" aria-hidden="true">
 		<span class="loader">
 		  <span></span>
 		  <span></span>
@@ -24,10 +38,10 @@
 	<div id="app">
 		<main class="main">
 			<div class="search-bar__container">
-				<input type="text" class="search-bar" placeholder="Search for Cities...">
-				<button id="search-button">search</button>
-				<div class="list-container">
-
+				<label for="search-input" class="visually-hidden">Search for cities</label>
+				<input type="text" id="search-input" class="search-bar" placeholder="Search for Cities..." aria-label="Search for cities">
+				<button id="search-button" aria-label="Search">search</button>
+				<div class="list-container" role="listbox" aria-label="Search results">
 				</div>
 			</div>
 			<div class="main-header">
