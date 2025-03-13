@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://umbrellaforecast.netlify.app/sitemap.xml 
