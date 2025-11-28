@@ -85,9 +85,10 @@ window.addEventListener("load", async function () {
         // Once the function completes, you can hide the loading page
         loadingPage.style.display = "none";
     } catch (error) {
-        // Handle errors here
-        loadingPage.style.display = "none";
+        // Handle errors here - load London as fallback
         console.error("An error occurred:", error);
+        getMainWeatherData("london");
+        loadingPage.style.display = "none";
     }
 });
 /**
@@ -557,9 +558,7 @@ const getUserLocation = function () {
             );
         } else {
             console.log("Geolocation is not available");
+            reject(new Error("Geolocation is not available"));
         }
     });
 };
-
-getUserLocation();
-getMainWeatherData("london");
