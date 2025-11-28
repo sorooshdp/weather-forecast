@@ -28,6 +28,45 @@ const weatherIcons = {
     THUNDERSTORMS: [95, 96, 99],
 };
 
+const weatherThemes = {
+    clear: {
+        gradient: "linear-gradient(135deg, #FDB813 0%, #F59E0B 50%, #EF4444 100%)",
+        name: "clear"
+    },
+    clouds: {
+        gradient: "linear-gradient(135deg, #334155 0%, #1E293B 50%, #0F172A 100%)",
+        name: "cloudy"
+    },
+    rain: {
+        gradient: "linear-gradient(135deg, #334155 0%, #1E3A5F 50%, #0C2340 100%)",
+        name: "rainy"
+    },
+    drizzle: {
+        gradient: "linear-gradient(135deg, #475569 0%, #334155 50%, #1E293B 100%)",
+        name: "drizzle"
+    },
+    snow: {
+        gradient: "linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 50%, #7DD3FC 100%)",
+        name: "snowy"
+    },
+    thunderstorm: {
+        gradient: "linear-gradient(135deg, #312E81 0%, #1E1B4B 50%, #0F0A1E 100%)",
+        name: "stormy"
+    },
+    fog: {
+        gradient: "linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #374151 100%)",
+        name: "foggy"
+    },
+    mist: {
+        gradient: "linear-gradient(135deg, #9CA3AF 0%, #6B7280 50%, #4B5563 100%)",
+        name: "misty"
+    },
+    haze: {
+        gradient: "linear-gradient(135deg, #D1D5DB 0%, #9CA3AF 50%, #6B7280 100%)",
+        name: "hazy"
+    }
+};
+
 const api = {
     API_KEY: "89519baf7c707c67fc8c7b0765aa8545",
     BASE_URL: "https://api.openweathermap.org/data/2.5/",
@@ -234,8 +273,22 @@ function getMainWeatherData(...coordinates) {
  */
 function showResult(data) {
     updateMainStatus(data);
-    updateIcon(data.weather[0].main.toLowerCase());
+    const weatherCondition = data.weather[0].main.toLowerCase();
+    updateIcon(weatherCondition);
     updateConditions(data);
+    updateWeatherTheme(weatherCondition);
+}
+
+/**
+ * Updates the background theme based on the weather condition.
+ * @param {string} weatherCondition - The weather condition (e.g., 'clear', 'clouds', 'rain').
+ */
+function updateWeatherTheme(weatherCondition) {
+    const app = document.querySelector("#app");
+    const theme = weatherThemes[weatherCondition] || weatherThemes.clear;
+    
+    app.style.transition = "background 1s ease";
+    app.style.background = theme.gradient;
 }
 /**
  * Sets the opacity of the provided elements to zero.

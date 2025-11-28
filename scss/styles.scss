@@ -4,12 +4,12 @@
 #app {
     color: $platinum;
     background-color: $richBlack;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(58deg, rgba(0, 0, 0, 1) 2%, rgba(11, 19, 30, 1) 94%);
+    background: linear-gradient(135deg, #334155 0%, #1E293B 50%, #0F172A 100%);
+    transition: background 1s ease;
     font-family: $mainFont;
     font-weight: $fontThin;
     font-style: italic;
-    min-height: 100%;
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 7fr 4fr;
     grid-template-rows: 1fr repeat(3, 2fr);
@@ -64,11 +64,15 @@
             position: absolute;
             max-height: 67.5%;
             width: 62.55%;
-            background-color: $gunmetal;
+            background-color: rgba(32, 44, 60, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 3px solid rgba(255, 255, 255, 0.18);
             margin-top: 4.2rem;
             border-radius: 1.5rem;
             display: none;
             box-shadow: 0px 0px 9px -1px $dogerBlue;
+            z-index: 100;
 
             .suggestion {
                 list-style: none;
@@ -103,9 +107,11 @@
             border-top-right-radius: 1rem;
             border-bottom-right-radius: 1rem;
             width: 5rem;
-            border: none;
+            border: 3px solid rgba(255, 255, 255, 0.18);
             outline: none;
-            background-color: $dogerBlue;
+            background-color: rgba(2, 148, 251, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             font-family: $mainFont;
             color: $platinum;
             font-weight: 900;
@@ -126,8 +132,10 @@
             margin-top: 1rem;
             border-top-left-radius: 1rem;
             border-bottom-left-radius: 1rem;
-            border: none;
-            background-color: $gunmetal;
+            border: 3px solid rgba(255, 255, 255, 0.18);
+            background-color: rgba(32, 44, 60, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             font-family: $mainFont;
             font-weight: 500;
             font-style: italic;
@@ -190,7 +198,10 @@
     }
 
     .forecast {
-        background-color: $gunmetal;
+        background-color: rgba(32, 44, 60, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 3px solid rgba(255, 255, 255, 0.18);
         height: fit-content;
         border-radius: 1.5rem;
 
@@ -240,7 +251,10 @@
     }
 
     .air-conditions {
-        background-color: $gunmetal;
+        background-color: rgba(32, 44, 60, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 3px solid rgba(255, 255, 255, 0.18);
         padding: 1.49rem 0;
         height: fit-content;
         border-radius: 1.5rem;
@@ -284,8 +298,11 @@
 .aside {
     margin-bottom: 1rem;
     grid-area: 1 / 2 / 5 / 3;
-    background-color: $gunmetal;
-    height: calc(100vh - 2rem);
+    background-color: rgba(32, 44, 60, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.18);
+    height: fit-content;
     border-radius: 1.5rem;
     margin: 1rem;
 
@@ -362,7 +379,7 @@
 
     .aside {
         grid-area: 1 / 2 / 5 / 3;
-        height: 95%;
+        height: fit-content;
     }
 }
 
@@ -408,9 +425,9 @@
             }
         }
     }
-
     .aside {
         grid-area: 3 / 1 / 5 / 5;
-        height: 100vh;
+        height: fit-content;
+        margin-top: 1rem;
     }
 }
